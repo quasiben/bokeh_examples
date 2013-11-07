@@ -6,7 +6,6 @@ import sqlite3
 
 import datetime
 import sqlite3
-import pandas.io.sql as psql
 
 
 app = Flask(__name__)
@@ -27,11 +26,22 @@ def index():
 
 class RSSIData(restful.Resource):
     def get(self,update_lim):
-        conn = get_db()
+        cur = get_db().cursor()
         sql = 'SELECT * FROM signal ORDER BY date DESC LIMIT %s' % (update_lim)
-        df = psql.read_frame(sql,conn)
-        print 'help'
-        return jsonify(df.to_dict())
+	cur.execute(sql)
+	result =  cur.fetchall()
+        date = []
+	xbee = []
+	rssi = []
+
+	for pt in result:
+    	    date.append(pt[0])
+    	    xbee.append(pt[1])
+            rssi.append(pt[2]) 
+
+	#df = psql.read_frame(sql,conn)
+        result_dict = {'date':date,'rssi':rssi,'xbee':xbee}
+        return jsonify(result_dict)
 
 
 api.add_resource(RSSIData, '/api/v1.0/<string:update_lim>')
