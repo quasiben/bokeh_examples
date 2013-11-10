@@ -9,7 +9,9 @@ import sqlite3
 import pandas as pd
 import pandas.io.json as pjson
 
-df = pd.io.json.read_json('http://localhost:5000/api/v1.0/80')
+N = 20
+
+df = pd.io.json.read_json('http://localhost:5000/api/v1.0/slice/0:%d' % (N))
 rssi = df.rssi*-1.0
 x = np.arange(len(df))
 xbee_id = str(df.xbee[0])
@@ -25,16 +27,22 @@ yaxis()[0].axis_label = "Signal Strength"
 
 show()
 
+r = requests.get('http://localhost:5000/api/v1.0/count')
+total = r.json()['total']
+
 i = 0
 import time
 from bokeh.objects import GlyphRenderer
 renderer = [r for r in curplot().renderers if isinstance(r, GlyphRenderer)][0]
 ds = renderer.data_source
 while True:
-    df = pd.io.json.read_json('http://localhost:5000/api/v1.0/80')
-    ds.data["x"] = x+80*i
+    lower = (i*N)%total
+    upper = N+lower
+    df = pd.io.json.read_json('http://localhost:5000/api/v1.0/slice/%d:%d' %(lower,upper))
+    print lower, upper
+    ds.data["x"] = x+lower
     ds.data["y"] = df.rssi
     ds._dirty = True
     session().store_obj(ds)
-    time.sleep(.5)
+    time.sleep(1.25)
     i+=1
