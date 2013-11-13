@@ -34,6 +34,17 @@ xaxis()[0].axis_label = "Time"
 yaxis()[0].axis_label = "Signal Strength"
 
 line_snippet =  line_plot.inject_snippet(server=False)
+
+open("embed_example.html","w").write("""
+<html>
+</html>
+<body>
+<h1> embed example</h1>
+%s
+<h2> after embed </h2>
+
+""" % line_snippet)
+
 print line_snippet
 
 if __name__ == "__main__":
