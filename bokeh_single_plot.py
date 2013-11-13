@@ -25,9 +25,9 @@ xbee_id = str(df.xbee[0])
 
 output_file("xbee_rssi.html", title="XBee RSSI Signal")
 
-line_plot = line(x,rssi, color="#0000FF", x_axis_type = "datetime", 
+line_plot = line(x,rssi, color="#0000FF", x_axis_type = "datetime",
     tools="pan,zoom,resize", width=600,height=200, title = 'Streaming RSSI Values',
-    legend='XBee %s Raw' % (xbee_id))
+    legend='XBee %s Raw' % (xbee_id), name='xbee_plot')
 
 
 xaxis()[0].axis_label = "Time"
