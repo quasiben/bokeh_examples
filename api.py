@@ -12,7 +12,7 @@ import platform
 app = Flask(__name__)
 api = restful.Api(app)
 
-DATABASE = 'xbee_rssi.db'
+DATABASE = 'xbee_saved.db'
 
 def get_db():
     db = getattr(g, '_database', None)

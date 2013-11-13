@@ -21,12 +21,16 @@ xbee_id = str(df.xbee[0])
 
 output_file("xbee_rssi.html", title="XBee RSSI Signal")
 
-line(x,rssi, color="#0000FF", x_axis_type = "datetime", 
+line_plot = line(x,rssi, color="#0000FF", x_axis_type = "datetime", 
     tools="pan,zoom,resize", width=1200,height=300, title = 'Streaming RSSI Values',
     legend='XBee %s Raw' % (xbee_id))
 
+
 xaxis()[0].axis_label = "Time"
 yaxis()[0].axis_label = "Signal Strength"
+
+line_snippet =  line_plot.inject_snippet()
+print line_snippet
 
 if __name__ == "__main__":
     show()  # open a browser
