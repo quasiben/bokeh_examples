@@ -8,12 +8,16 @@ import datetime
 import sqlite3
 import pandas as pd
 import pandas.io.json as pjson
+import pandas.io.sql as psql
 
 
 lower = 20
 upper = 100
 
-df = pd.io.json.read_json('http://localhost:5000/api/v1.0/slice/%d:%d' %(lower,upper))
+#df = pd.io.json.read_json('http://localhost:5000/api/v1.0/slice/%d:%d' %(lower,upper))
+conn = sqlite3.connect('xbee_saved.db', detect_types=sqlite3.PARSE_DECLTYPES)
+sql = 'SELECT * FROM signal WHERE ROWID >= %s  AND ROWID < %s' % (lower,upper)
+df = psql.read_frame(sql,conn)
 
 rssi = df.rssi*-1.0
 x = np.arange(len(df))
@@ -22,14 +26,14 @@ xbee_id = str(df.xbee[0])
 output_file("xbee_rssi.html", title="XBee RSSI Signal")
 
 line_plot = line(x,rssi, color="#0000FF", x_axis_type = "datetime", 
-    tools="pan,zoom,resize", width=1200,height=300, title = 'Streaming RSSI Values',
+    tools="pan,zoom,resize", width=600,height=200, title = 'Streaming RSSI Values',
     legend='XBee %s Raw' % (xbee_id))
 
 
 xaxis()[0].axis_label = "Time"
 yaxis()[0].axis_label = "Signal Strength"
 
-line_snippet =  line_plot.inject_snippet()
+line_snippet =  line_plot.inject_snippet(server=False)
 print line_snippet
 
 if __name__ == "__main__":

@@ -1,12 +1,17 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: osx-64
+bokeh=0.2=np17py27_1
 dateutil=2.1=py27_2
 distribute=0.6.45=py27_1
 flask=0.10.1=py27_1
 flask-restful=2.1.0=py27_0
+gevent=0.13.8=py27_0
+gevent-websocket=0.3.6=py27_2
+greenlet=0.4.1=py27_0
 itsdangerous=0.23=py27_0
 jinja2=2.7.1=py27_0
+libevent=2.0.20=1
 markupsafe=0.18=py27_0
 numpy=1.7.1=py27_0
 pandas=0.12.0=np17py27_0
@@ -15,6 +20,9 @@ pyserial=2.7=py27_0
 python=2.7.6=0
 pytz=2013b=py27_0
 readline=6.2=1
+redis=2.6.9=0
+redis-py=2.7.2=py27_0
+requests=1.2.3=py27_0
 scipy=0.13.0=np17py27_0
 six=1.4.1=py27_0
 sqlite=3.7.13=1
